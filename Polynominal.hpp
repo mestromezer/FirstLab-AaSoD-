@@ -1,0 +1,3 @@
+class Polynominal{
+    Node* head;
+};
