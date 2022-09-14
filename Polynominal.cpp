@@ -1,10 +1,14 @@
 #include "Polynominal.h"
 
-Polynominal::Polynominal(int Power, double* Coefs, int Size)
+int Polynominal::GetOrderOfPolynominal()
 {
-	BeginnigWith = Power;
-	Lenght = Size;
-	SetCoefs(Coefs);
+	return OrderOfPolynominal;
+}
+
+Polynominal::Polynominal(int Order)
+{
+	OrderOfPolynominal = Order;
+	Values = nullptr;
 }
 
 void Polynominal::SetCoefs(double* Coefs)
@@ -12,8 +16,9 @@ void Polynominal::SetCoefs(double* Coefs)
 	Values = new Сoefficients;
 	Сoefficients* pointer = Values;
 
-	for (int i = 0; i < Lenght; i++) // range
+	for (int i = 0; i < OrderOfPolynominal; i++) // range
 	{
+		if (pointer == nullptr) throw SearchError("Invalid order");
 		pointer->Value = Coefs[i];
 		pointer->Next = new Сoefficients;
 		pointer = pointer->Next;
@@ -21,24 +26,24 @@ void Polynominal::SetCoefs(double* Coefs)
 	pointer->Next = nullptr;
 }
 
-void Polynominal::set(int Power, double Coef)
+void Polynominal::Set(int Order, double Coef)
 {
 	Сoefficients* Pointer = Values;
 
-	for (int i = 0; i < Lenght; i++)
+	for (int i = 0; i < OrderOfPolynominal; i++)
 	{
 		Pointer = Pointer->Next;
-		if (i == Power + BeginnigWith) Pointer[i].Value = Coef;
+		if (i == Order) Pointer[i].Value = Coef;
 	}
 }
 
-double Polynominal::operator [] (int Power)
+double Polynominal::operator [] (int Order)
 {
 	Сoefficients* Pointer = Values;
 
-	for (int i = 0; i < Lenght; i++)
+	for (int i = 0; i < OrderOfPolynominal; i++)
 	{
-		if (i == Power + BeginnigWith) return Values[i].Value;
+		if (i == Order) return Values[i].Value;
 	}
-	throw "Polynominal's last member is in lower power";
+	throw SearchError("Invalid order");
 }
