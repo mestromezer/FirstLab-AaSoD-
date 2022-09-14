@@ -1,4 +1,5 @@
 #pragma once
+#include "PolynominalError.h"
 
 struct Сoefficients
 {
@@ -9,17 +10,18 @@ struct Сoefficients
 class Polynominal
 {
 	Сoefficients* Values;
-	int Lenght;
 
-	int BeginnigWith;
+	int OrderOfPolynominal;
 
 public:
 
-	Polynominal(int Power, double* Coefs, int Size);
+	int GetOrderOfPolynominal();
+
+	Polynominal(int Order);
 
 	void SetCoefs(double* Coefs);
 
-	void set(int Power, double Coef);
+	void Set(int Order, double Coef);
 
 	double operator [] (int Power);
 };
