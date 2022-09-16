@@ -1,6 +1,6 @@
 #include "Polynominal.h"
 
-int Polynominal::GetOrderOfPolynominal()
+int Polynominal::GetOrderOfPolynominal() const
 {
 	return OrderOfPolynominal;
 }
@@ -8,10 +8,11 @@ int Polynominal::GetOrderOfPolynominal()
 Polynominal::Polynominal(int Order)
 {
 	OrderOfPolynominal = Order;
-	Values = nullptr;
+	double* c = new double[Order] {0};
+	InitializeCoefs(c);
 }
 
-void Polynominal::SetCoefs(double* Coefs)
+void Polynominal::InitializeCoefs(double* Coefs)
 {
 	Values = new Сoefficients;
 	Сoefficients* pointer = Values;
@@ -19,7 +20,7 @@ void Polynominal::SetCoefs(double* Coefs)
 	for (int i = 0; i < OrderOfPolynominal; i++) // range
 	{
 		if (pointer == nullptr) throw SearchError("Invalid order");
-		pointer->Value = Coefs[i];
+		pointer->Value = ++Coefs[i];
 		pointer->Next = new Сoefficients;
 		pointer = pointer->Next;
 	}
