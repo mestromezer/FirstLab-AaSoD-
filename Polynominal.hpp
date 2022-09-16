@@ -13,15 +13,25 @@ class Polynominal
 
 	int OrderOfPolynominal;
 
+	void InitializeCoefs(double* Coefs);
+
 public:
 
-	int GetOrderOfPolynominal();
+	int GetOrderOfPolynominal()const;
 
 	Polynominal(int Order);
 
-	void SetCoefs(double* Coefs);
-
 	void Set(int Order, double Coef);
+
+	double GetCoef(int Order) const
+	{
+		Сoefficients* pointer = Values;
+		for (int i = 0; i < Order; i++)
+		{
+			pointer = pointer->Next;
+		}
+		return pointer->Value;
+	}
 
 	double operator [] (int Power);
 };
