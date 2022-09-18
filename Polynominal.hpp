@@ -23,15 +23,27 @@ public:
 
 	void Set(int Order, double Coef);
 
-	double GetCoef(int Order) const
-	{
-		Сoefficients* pointer = Values;
-		for (int i = 0; i < Order; i++)
-		{
-			pointer = pointer->Next;
-		}
-		return pointer->Value;
-	}
+	double GetCoef(int Order) const;
 
 	double operator [] (int Power);
+
+	Polynominal operator + (const Polynominal&  other);
+
+	Polynominal operator - (const Polynominal&  other);
+
+	Polynominal operator * (float val);
+
+	Polynominal Derivate()
+	{
+		int l = GetOrderOfPolynominal() - 1;
+
+		Polynominal* newbie = new Polynominal(l);
+		
+		for(int current = 0; current < l; current++)
+		{
+			newbie->Set(current, current * GetCoef(current+1));
+		}
+
+		return (*newbie);
+	}
 };
