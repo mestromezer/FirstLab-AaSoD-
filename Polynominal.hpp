@@ -33,17 +33,5 @@ public:
 
 	Polynominal operator * (float val);
 
-	Polynominal Derivate()
-	{
-		int l = GetOrderOfPolynominal() - 1;
-
-		Polynominal* newbie = new Polynominal(l);
-		
-		for(int current = 0; current < l; current++)
-		{
-			newbie->Set(current, current * GetCoef(current+1));
-		}
-
-		return (*newbie);
-	}
+	Polynominal Derivate();
 };
