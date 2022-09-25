@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class PolynominalError
+class PolynominalError: public exception
 {
 	const char* Message;
 
@@ -16,10 +16,10 @@ protected:
 	void PrintInfo();
 };
 
-class SearchError : PolynominalError
+class MemoryError : PolynominalError
 {
 public:
-	SearchError(const char* Message);
+	MemoryError(const char* Message);
 };
 
 class RangeError : PolynominalError

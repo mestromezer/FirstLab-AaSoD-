@@ -8,7 +8,7 @@ void PolynominalError::PrintInfo()
 	cout << Message << endl;
 }
 
-SearchError::SearchError(const char* Message)
+MemoryError::MemoryError(const char* Message)
 {
 	SetMessage(Message);
 	PrintInfo();

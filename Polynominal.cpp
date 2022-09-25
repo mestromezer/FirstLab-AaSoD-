@@ -7,20 +7,21 @@ int Polynominal::GetOrderOfPolynominal() const
 
 Polynominal::Polynominal(int Order)
 {
-	OrderOfPolynominal = Order;
-	double* c = new double[Order] {0};
+	OrderOfPolynominal = Order; 
+	double* c = new double[Order + 1] {0};//for zero order elem
 	InitializeCoefs(c);
 }
 
 void Polynominal::InitializeCoefs(double* Coefs)
 {
-	Values = new Сoefficients;
-	Сoefficients* pointer = Values;
+	Head = new Сoefficients;
+	Сoefficients* pointer = Head;
+	if (pointer == nullptr) throw MemoryError("No memory");
 
-	for (int i = 0; i < OrderOfPolynominal; i++) // range
+	for (int i = 0; i < OrderOfPolynominal + 1; i++) // range
 	{
-		if (pointer == nullptr) throw SearchError("Invalid order");
 		pointer->Value = ++Coefs[i];
+		pointer->My_Order = i;
 		pointer->Next = new Сoefficients;
 		pointer = pointer->Next;
 	}
@@ -31,35 +32,47 @@ void Polynominal::Set(int Order, double Coef)
 {
 	if(Order < 0) throw RangeError("Степень слишком мала ( < 0)");
 
-	Сoefficients* Pointer = Values;
-
-	for (int i = 0; i < OrderOfPolynominal; i++)
+	if (Coef == 0)
 	{
-		Pointer = Pointer->Next;
-		if (i == Order) Pointer[i].Value = Coef;
+		RemoveElem(Order);
+	}
+	else {
+
+		Сoefficients* Pointer = Head;
+
+		for (int i = 0; i <= OrderOfPolynominal; i++)
+		{
+			if (i == Order)
+			{
+				if (Coef != 0)Pointer->Value = Coef;
+				break;
+			}
+			Pointer = Pointer->Next;
+		}
 	}
 }
 
 double Polynominal::GetCoef(int Order) const
 {
-	Сoefficients* pointer = Values;
+	if (Order > OrderOfPolynominal || Order < 0) throw RangeError("Неверная степень");
+	Сoefficients* Pointer = Head;
 	for (int i = 0; i < Order; i++)
 	{
-		pointer = pointer->Next;
+		Pointer = Pointer->Next;
 	}
-	return pointer->Value;
+	return Pointer->Value;
 }
 
 double Polynominal::operator [] (int Order)
 {
-	if(Order < 0) throw RangeError("Степень слишком мала ( < 0)");
-	Сoefficients* Pointer = Values;
+	if (Order > OrderOfPolynominal || Order < 0) throw RangeError("Неверная степень");
+	Сoefficients* Pointer = Head;
 
 	for (int i = 0; i < OrderOfPolynominal; i++)
 	{
-		if (i == Order) return Values[i].Value;
+		if (i == Order) return Head[i].Value;
 	}
-	throw SearchError("Invalid order");
+	throw MemoryError("Invalid order");
 }
 
 Polynominal Polynominal::operator + (const Polynominal&  other)
