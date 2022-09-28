@@ -2,6 +2,7 @@
 #include "PolynominalError.h"
 #define STRING_SIZE 64
 #define BUFFER_SIZE 15
+using namespace std;
 
 struct Сoefficients
 {
@@ -17,19 +18,6 @@ class Polynominal
 	int OrderOfPolynominal;
 
 	void InitializeCoefs(double* Coefs);
-
-	ostream& operator<<(ostream& os) {
-		char String[STRING_SIZE]{ '\0' };
-		for (int i = 0; i < OrderOfPolynominal; i++)
-		{
-			char Buffer[BUFFER_SIZE]{ '\0' };
-			sprintf(Buffer, "%f*(X^%d)", GetCoef(i), i);
-			strcat(String, Buffer);
-			strcat(String, " + ");
-			free(Buffer);
-		}
-		return os << String << endl;
-	}
 
 	void RemoveElem(int Order)
 	{
@@ -62,6 +50,11 @@ class Polynominal
 	}
 
 public:
+
+	Сoefficients* GetHead() const
+	{
+		return Head;
+	}
 
 	int GetOrderOfPolynominal()const;
 
