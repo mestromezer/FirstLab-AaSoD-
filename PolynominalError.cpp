@@ -1,5 +1,5 @@
-#include "PolynominalError.h"
-
+#include "PolynominalError.hpp"
+#include <cstring>
 
 PolynominalError::PolynominalError() { cout << "Error exception! " << endl; }
 void PolynominalError::SetMessage(const char* Message) { if (Message != nullptr && strcmp(Message, "") != 0) this->Message = Message; }

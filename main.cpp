@@ -4,8 +4,8 @@ using namespace std;
 
 ostream& operator<<(ostream& os, const Polynominal& Obj)
 {
-    Ñoefficients* Pointer = Obj.GetHead();
-    for (int i = 0; i < Obj.GetOrderOfPolynominal(); i++)
+    Ð¡oefficients* Pointer = Obj.GetHead();
+    for (int i = 0; i < Obj.GetOrderOfPolynominal() + 1; i++)
     {
         os << Pointer->Value << " * x^" << Pointer->My_Order << ' ';
         if (i++ != Obj.GetOrderOfPolynominal()) os << '+';
@@ -14,9 +14,9 @@ ostream& operator<<(ostream& os, const Polynominal& Obj)
     return os;
 }
 
-void main()
+int main()
 {
-    Polynominal test(2); // 2 for x^2 
+    Polynominal test(2); // 2 for 2 coefs 
     for (int i = 0; i < 4; i++) test.Set(i, i);
 
     cout << test << endl;
@@ -34,5 +34,5 @@ void main()
     Print(b);
     cout<< '\n' << endl;*/
 
-    getchar();
+    return 0;
 }

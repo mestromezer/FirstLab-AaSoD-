@@ -1,5 +1,5 @@
 #pragma once
-#include "PolynominalError.h"
+#include "PolynominalError.hpp"
 #define STRING_SIZE 64
 #define BUFFER_SIZE 15
 using namespace std;
@@ -73,4 +73,6 @@ public:
 	Polynominal operator * (float val);
 
 	Polynominal Derivate();
+
+	friend ostream& operator<<(ostream& os, const Polynominal& Obj);
 };

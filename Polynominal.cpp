@@ -1,4 +1,5 @@
 #include "Polynominal.hpp"
+#include "PolynominalError.hpp"
 
 int Polynominal::GetOrderOfPolynominal() const
 {
@@ -8,7 +9,7 @@ int Polynominal::GetOrderOfPolynominal() const
 Polynominal::Polynominal(int Order)
 {
 	OrderOfPolynominal = Order; 
-	double* c = new double[Order + 1] {0};//for zero order elem
+	double* c = new double[Order] {0};//for zero order elem
 	InitializeCoefs(c);
 }
 
@@ -18,7 +19,7 @@ void Polynominal::InitializeCoefs(double* Coefs)
 	Сoefficients* pointer = Head;
 	if (pointer == nullptr) throw MemoryError("No memory");
 
-	for (int i = 0; i < OrderOfPolynominal + 1; i++) // range
+	for (int i = OrderOfPolynominal; i > 0 ; i--) // range
 	{
 		pointer->Value = ++Coefs[i];
 		pointer->My_Order = i;
@@ -40,12 +41,17 @@ void Polynominal::Set(int Order, double Coef)
 
 		Сoefficients* Pointer = Head;
 
-		for (int i = 0; i <= OrderOfPolynominal; i++)
+		for (int i = 0; i < OrderOfPolynominal; i++)
 		{
-			if (i == Order)
+			if (Pointer->My_Order == Order)
 			{
-				if (Coef != 0)Pointer->Value = Coef;
-				break;
+				if (Coef != 0)
+				{
+					Pointer->Value = Coef;
+					break;
+				}
+				else throw("Coef is equal to 0\n");
+				
 			}
 			Pointer = Pointer->Next;
 		}
@@ -71,6 +77,7 @@ double Polynominal::operator [] (int Order)
 	for (int i = 0; i < OrderOfPolynominal; i++)
 	{
 		if (i == Order) return Head[i].Value;
+		Pointer = Pointer->Next;
 	}
 	throw MemoryError("Invalid order");
 }
