@@ -62,7 +62,10 @@ public:
     Polynominal operator-(const Polynominal &other);
 
     Polynominal operator*(double Val);
+
     Polynominal Derivate();
+
+    double CountValue(double x);
 
     friend ostream &operator<<(ostream &os, const Polynominal &Obj);
 };

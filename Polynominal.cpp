@@ -185,3 +185,15 @@ Polynominal Polynominal::Derivate()
     }
     return Result;
 }
+
+double Polynominal::CountValue(double x)
+{
+    Coefficients *Pointer = GetHead();
+    double Ans = 0;
+    for (int i = 0; i < GetOrderOfPolynominal() + 1; i++)
+    {
+        Ans += Pointer->Value * pow(x, Pointer->MyOrder);
+        Pointer = Pointer->Next;
+    }
+    return Ans;
+}

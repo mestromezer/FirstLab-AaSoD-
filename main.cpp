@@ -54,5 +54,8 @@ int main()
     cout << "\nDerivate (a): " << endl;
     cout << a.Derivate() << endl;
 
+    cout << "\nCount value for x = 15" << endl;
+    cout << "y = " << a.CountValue(15.0) << endl;
+
     return 0;
 }
