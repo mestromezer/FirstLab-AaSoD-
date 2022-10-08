@@ -1,14 +1,15 @@
 #include "Polynominal.hpp"
-#include <string>
+#include <iostream>
 using namespace std;
 
-ostream& operator<<(ostream& os, const Polynominal& Obj)
+ostream &operator<<(ostream &os, const Polynominal &Obj)
 {
-    Сoefficients* Pointer = Obj.GetHead();
+    Сoefficients *Pointer = Obj.GetHead();
     for (int i = 0; i < Obj.GetOrderOfPolynominal() + 1; i++)
     {
-        os << Pointer->Value << " * x^" << Pointer->My_Order << ' ';
-        if (i++ != Obj.GetOrderOfPolynominal()) os << '+';
+        os << Pointer->Value << "*x^" << Pointer->My_Order;
+        if (i != Obj.GetOrderOfPolynominal())
+            os << " + ";
         Pointer = Pointer->Next;
     }
     return os;
@@ -16,23 +17,15 @@ ostream& operator<<(ostream& os, const Polynominal& Obj)
 
 int main()
 {
-    Polynominal test(2); // 2 for 2 coefs 
-    for (int i = 0; i < 4; i++) test.Set(i, i);
+    Polynominal a(2);
+    for (int i = 2; i >= 0; i--)
+    {
+        a.Set(i, (i + 1) * 3);
+    }
+    cout << a[0] << endl;
+    cout << "a[1]" << endl;
 
-    cout << test << endl;
-
-    /*
-    Polynominal a(5);
-    for(int i = 0; i < 7; i++) a.Set(i,i*3);
-
-    Polynominal b(7);
-    for(int i = 0; i <= 7; i++) b.Set(i,i*2);
-
-    Print(a);
-    cout<< '\n' << endl;
-
-    Print(b);
-    cout<< '\n' << endl;*/
+    cout << a << endl;
 
     return 0;
 }

@@ -3,34 +3,26 @@
 
 using namespace std;
 
-class PolynominalError: public exception
+class PolynominalError : public exception
 {
-	const char* Message;
-
 protected:
+    const char *Message;
 
-	PolynominalError();
+    PolynominalError();
 
-	void SetMessage(const char* Message);
+    void SetMessage(const char *Message);
 
-	void PrintInfo();
+    void PrintInfo() const;
 };
 
 class MemoryError : PolynominalError
 {
 public:
-	MemoryError(const char* Message);
+    MemoryError(const char *Message);
 };
 
 class RangeError : PolynominalError
 {
 public:
-	RangeError(const char* Message);
+    RangeError(const char *Message);
 };
-
-class CoefError: PolynominalError
-{
-	public:
-	CoefError(const char* Message);
-}
-
