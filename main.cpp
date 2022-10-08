@@ -4,10 +4,14 @@ using namespace std;
 
 ostream &operator<<(ostream &os, const Polynominal &Obj)
 {
-    Сoefficients *Pointer = Obj.GetHead();
+    if (Obj.GetOrderOfPolynominal() == -1)
+    {
+        cout << "Polynominal has no coefs" << endl;
+    }
+    Coefficients *Pointer = Obj.GetHead();
     for (int i = 0; i < Obj.GetOrderOfPolynominal() + 1; i++)
     {
-        os << Pointer->Value << "*x^" << Pointer->My_Order;
+        os << Pointer->Value << "*x^" << Pointer->MyOrder;
         if (i != Obj.GetOrderOfPolynominal())
             os << " + ";
         Pointer = Pointer->Next;
@@ -22,10 +26,33 @@ int main()
     {
         a.Set(i, (i + 1) * 3);
     }
-    cout << a[0] << endl;
-    cout << "a[1]" << endl;
 
+    Polynominal b(4);
+    for (int i = 4; i >= 0; i--)
+    {
+        b.Set(i, ((i + 2) * 3));
+    }
+
+    cout << "\na[0]: " << endl;
+    cout << a[0] << endl;
+
+    cout << "\na: " << endl;
     cout << a << endl;
+
+    cout << "\nb: " << endl;
+    cout << b << endl;
+
+    cout << "\n(a * 2): " << endl;
+    cout << (a * 2) << endl;
+
+    cout << "\na+b: " << endl;
+    cout << a + b << endl;
+
+    cout << "\na-b: " << endl;
+    cout << a - b << endl;
+
+    cout << "\nDerivate (a): " << endl;
+    cout << a.Derivate() << endl;
 
     return 0;
 }

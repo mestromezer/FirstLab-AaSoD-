@@ -3,16 +3,16 @@
 #include "PolynominalError.hpp"
 using namespace std;
 
-struct Сoefficients
+struct Coefficients
 {
-    int My_Order;
+    int MyOrder;
     double Value;
-    Сoefficients *Next;
+    Coefficients *Next;
 };
 
 class Polynominal
 {
-    Сoefficients *Head;
+    Coefficients *Head;
 
     int OrderOfPolynominal;
 
@@ -47,110 +47,21 @@ class Polynominal
     }*/
 
 public:
-    Сoefficients *GetHead() const
-    {
-        return Head;
-    }
+    Coefficients *GetHead() const;
 
-    int GetOrderOfPolynominal() const
-    {
-        return OrderOfPolynominal;
-    }
+    int GetOrderOfPolynominal() const;
 
-    Polynominal(int Order)
-    {
-        if (Order >= 0)
-        {
-            OrderOfPolynominal = Order;
-            Head = nullptr;
-        }
-        else
-        {
-            throw RangeError("Incorrect \"Order\" for polynomianl");
-        }
-    }
+    Polynominal(int Order);
 
-    void Set(int Order, double Coef)
-    {
-        if (Coef == 0)
-        {
-            cout << "Only non-zero coefs are available" << endl;
-            return;
-        }
-        if (Order < 0 || Order > GetOrderOfPolynominal())
-        {
-            throw RangeError("Incorrect \"Order\", value can't be initialized\n");
-        }
-        if (Head == NULL)
-        {
-            Сoefficients *newbie = new Сoefficients;
-            newbie->My_Order = Order;
-            newbie->Value = Coef;
-            newbie->Next = nullptr;
-            Head = newbie;
-            return;
-        }
+    void Set(int Order, double Coef);
 
-        Сoefficients *PointerA = GetHead();
-        Сoefficients *PointerB = PointerA;
-        for (int i = 0; i < GetOrderOfPolynominal() + 1; i++)
-        {
-            if (PointerA->Next == nullptr && Order < PointerA->My_Order) //последний эдемент
-            {
-                Сoefficients *newbie = new Сoefficients;
-                newbie->My_Order = Order;
-                newbie->Value = Coef;
-                newbie->Next = nullptr;
-
-                PointerA->Next = newbie;
-                return;
-            }
-            else if (PointerA->My_Order == Order) // просто изменить значение
-            {
-                PointerA->Value = Coef;
-                return;
-            }
-            else if (PointerA->My_Order < Order) // добавить между
-            {
-                Сoefficients *newbie = new Сoefficients;
-                newbie->My_Order = Order;
-                newbie->Value = Coef;
-
-                newbie->Next = PointerA;
-                PointerB->Next = newbie;
-                return;
-            }
-            PointerB = PointerA;
-            PointerA = PointerA->Next;
-        }
-    }
-
-    double GetCoef(int Order) const;
-
-    double operator[](int Order)
-    {
-        if (Order < 0 || Order > OrderOfPolynominal)
-        {
-            throw RangeError("Incorrect \"Order\", value can't be found\n");
-        }
-
-        Сoefficients *Pointer = GetHead();
-
-        for (int i = 0; i <= GetOrderOfPolynominal(); i++)
-        {
-            if (Pointer->My_Order == Order)
-                return Pointer->Value;
-            Pointer = Pointer->Next;
-        }
-        throw RangeError("Order has no coef\n");
-    }
+    double operator[](int Order);
 
     Polynominal operator+(const Polynominal &other);
 
     Polynominal operator-(const Polynominal &other);
 
-    Polynominal operator*(float val);
-
+    Polynominal operator*(double Val);
     Polynominal Derivate();
 
     friend ostream &operator<<(ostream &os, const Polynominal &Obj);
