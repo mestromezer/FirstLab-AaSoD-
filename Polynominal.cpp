@@ -51,7 +51,7 @@ void Polynominal::Set(int Order, double Coef)
 
     Coefficients *PointerA = GetHead();
     Coefficients *PointerB = PointerA;
-    for (int i = 0; i < GetOrderOfPolynominal() + 1; i++)
+    for (int i = 0; i < GetOrderOfPolynominal() + 1 && PointerA; i++)
     {
         if (PointerA->Next == nullptr && Order < PointerA->MyOrder) //последний эдемент
         {
@@ -83,81 +83,54 @@ void Polynominal::Set(int Order, double Coef)
     }
 }
 
-double Polynominal::operator[](int Order)
+double Polynominal::operator[](int Order) const
 {
-    if (Order < 0 || Order > OrderOfPolynominal)
-    {
-        throw RangeError("Incorrect \"Order\", value can't be found\n");
-    }
-
     Coefficients *Pointer = GetHead();
 
-    for (int i = 0; i <= GetOrderOfPolynominal(); i++)
+    while (Pointer)
     {
         if (Pointer->MyOrder == Order)
             return Pointer->Value;
         Pointer = Pointer->Next;
     }
-    throw RangeError("Order has no coef\n");
+    return 0;
 }
 
-Polynominal Polynominal::operator+(const Polynominal &other)
+Polynominal Polynominal::operator+(const Polynominal &Other)
 {
-    int Length = 0;
     int Maximum = 0;
-    this->GetOrderOfPolynominal() > other.GetOrderOfPolynominal() ? Length = other.GetOrderOfPolynominal() : Length = this->GetOrderOfPolynominal();
 
-    this->GetOrderOfPolynominal() < other.GetOrderOfPolynominal() ? Maximum = other.GetOrderOfPolynominal() : Maximum = this->GetOrderOfPolynominal();
+    this->GetOrderOfPolynominal() < Other.GetOrderOfPolynominal() ? Maximum = Other.GetOrderOfPolynominal() : Maximum = this->GetOrderOfPolynominal();
 
-    Polynominal Result(Length);
+    Polynominal Result(Maximum);
 
-    Coefficients *PointerA = this->GetHead();
-    Coefficients *PointerB = other.GetHead();
+    int CurrentOrder = Maximum;
 
-    for (int i = 0; i < Length + 1; i++)
+    while (CurrentOrder > -1)
     {
-        for (int j = 0; j <= Maximum + 1; j++)
-        {
-            if (PointerA->MyOrder == PointerB->MyOrder)
-            {
-                Result.Set(PointerA->MyOrder, (PointerA->Value + PointerB->Value));
-                break;
-            }
-            PointerB = PointerB->Next;
-        }
-        PointerB = other.GetHead();
-        PointerA = PointerA->Next;
+        Result.Set(CurrentOrder, ((*this)[CurrentOrder]) + (Other[CurrentOrder]));
+        CurrentOrder--;
     }
+
     return Result;
 }
 
-Polynominal Polynominal::operator-(const Polynominal &other)
+Polynominal Polynominal::operator-(const Polynominal &Other)
 {
-    int Length = 0;
     int Maximum = 0;
-    this->GetOrderOfPolynominal() > other.GetOrderOfPolynominal() ? Length = other.GetOrderOfPolynominal() : Length = this->GetOrderOfPolynominal();
 
-    this->GetOrderOfPolynominal() < other.GetOrderOfPolynominal() ? Maximum = other.GetOrderOfPolynominal() : Maximum = this->GetOrderOfPolynominal();
+    this->GetOrderOfPolynominal() < Other.GetOrderOfPolynominal() ? Maximum = Other.GetOrderOfPolynominal() : Maximum = this->GetOrderOfPolynominal();
 
-    Polynominal Result(Length);
+    Polynominal Result(Maximum);
 
-    Coefficients *PointerA = this->GetHead();
-    Coefficients *PointerB = other.GetHead();
+    int CurrentOrder = Maximum;
 
-    for (int i = 0; i < Length + 1; i++)
+    while (CurrentOrder > -1)
     {
-        for (int j = 0; j <= Maximum + 1; j++)
-        {
-            if (PointerA->MyOrder == PointerB->MyOrder)
-            {
-                Result.Set(PointerA->MyOrder, (PointerA->Value - PointerB->Value));
-                break;
-            }
-            PointerB = PointerB->Next;
-        }
-        PointerB = other.GetHead();
-        PointerA = PointerA->Next;
+        Result.Set(CurrentOrder, ((*this)[CurrentOrder]) - (Other[CurrentOrder]));
+        CurrentOrder--;
     }
+
     return Result;
 }
 
@@ -174,6 +147,20 @@ Polynominal Polynominal::operator*(double Val)
     return Result;
 }
 
+Polynominal Polynominal::Primitive()
+{
+    Polynominal Result((OrderOfPolynominal + 1));
+    Coefficients *Pointer = GetHead();
+    for (int i = 0; i < OrderOfPolynominal + 1; i++)
+    {
+        double Coef = Pointer->Value * (1 / double(Pointer->MyOrder + 1));
+        Result.Set(((Pointer->MyOrder) + 1), Coef);
+        Pointer = Pointer->Next;
+    }
+    return Result;
+}
+
+/*
 Polynominal Polynominal::Derivate()
 {
     Polynominal Result((OrderOfPolynominal - 1));
@@ -184,13 +171,13 @@ Polynominal Polynominal::Derivate()
         Pointer = Pointer->Next;
     }
     return Result;
-}
+}*/
 
 double Polynominal::CountValue(double x)
 {
     Coefficients *Pointer = GetHead();
     double Ans = 0;
-    for (int i = 0; i < GetOrderOfPolynominal() + 1; i++)
+    for (int i = 0; i < GetOrderOfPolynominal() + 1 && Pointer; i++)
     {
         Ans += Pointer->Value * pow(x, Pointer->MyOrder);
         Pointer = Pointer->Next;

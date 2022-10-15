@@ -55,15 +55,17 @@ public:
 
     void Set(int Order, double Coef);
 
-    double operator[](int Order);
+    double operator[](int Order) const;
 
-    Polynominal operator+(const Polynominal &other);
+    Polynominal operator+(const Polynominal &Other);
 
-    Polynominal operator-(const Polynominal &other);
+    Polynominal operator-(const Polynominal &Other);
 
     Polynominal operator*(double Val);
 
-    Polynominal Derivate();
+    // Polynominal Derivate();
+
+    Polynominal Primitive();
 
     double CountValue(double x);
 

@@ -9,10 +9,10 @@ ostream &operator<<(ostream &os, const Polynominal &Obj)
         cout << "Polynominal has no coefs" << endl;
     }
     Coefficients *Pointer = Obj.GetHead();
-    for (int i = 0; i < Obj.GetOrderOfPolynominal() + 1; i++)
+    for (int i = 0; i < Obj.GetOrderOfPolynominal() + 1 && Pointer; i++)
     {
         os << Pointer->Value << "*x^" << Pointer->MyOrder;
-        if (i != Obj.GetOrderOfPolynominal())
+        if (Pointer->Next)
             os << " + ";
         Pointer = Pointer->Next;
     }
@@ -46,13 +46,13 @@ int main()
     cout << (a * 2) << endl;
 
     cout << "\na+b: " << endl;
-    cout << a + b << endl;
+    cout << (a + b) << endl;
 
     cout << "\na-b: " << endl;
     cout << a - b << endl;
 
-    cout << "\nDerivate (a): " << endl;
-    cout << a.Derivate() << endl;
+    cout << "\nPrimitive (a): " << endl;
+    cout << a.Primitive() << endl;
 
     cout << "\nCount value for x = 15" << endl;
     cout << "y = " << a.CountValue(15.0) << endl;
