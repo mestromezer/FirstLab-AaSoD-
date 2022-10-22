@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <math.h>
 #include "PolynominalError.hpp"
 using namespace std;
 
@@ -15,36 +16,6 @@ class Polynominal
     Coefficients *Head;
 
     int OrderOfPolynominal;
-
-    /*void RemoveElem(int Order)
-    {
-        //if (Order < 0) throw RangeError("Степень слишком мала ( < 0)");
-
-        Сoefficients* ForwardPointer = Head;
-
-        Сoefficients* BackwardPointer = Head;
-
-        if (Order == 0)
-        {
-            ForwardPointer = ForwardPointer->Next;
-            delete Head;
-            Head = ForwardPointer;
-        }
-        else {
-            for (int i = 0; i <= OrderOfPolynominal; i++)
-            {
-                if (ForwardPointer->My_Order == Order)
-                {
-                    Сoefficients* tmp = ForwardPointer;
-                    ForwardPointer = ForwardPointer->Next;
-                    delete tmp;
-                    BackwardPointer->Next = ForwardPointer;
-                }
-                BackwardPointer = ForwardPointer;
-                ForwardPointer = ForwardPointer->Next;
-            }
-        }
-    }*/
 
 public:
     Coefficients *GetHead() const;
