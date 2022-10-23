@@ -57,5 +57,7 @@ int main()
     cout << "\nCount value for x = 15" << endl;
     cout << "y = " << a.CountValue(15.0) << endl;
 
+    cout<<"Work is done."<<endl;
+
     return 0;
 }
