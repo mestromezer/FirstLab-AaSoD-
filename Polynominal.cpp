@@ -5,12 +5,12 @@ Coefficients *Polynominal::GetHead() const
     return Head;
 }
 
-int Polynominal::GetOrderOfPolynominal() const
+long long Polynominal::GetOrderOfPolynominal() const
 {
     return OrderOfPolynominal;
 }
 
-Polynominal::Polynominal(int Order)
+Polynominal::Polynominal(long long Order)
 {
     if (Order >= 0)
     {
@@ -23,11 +23,21 @@ Polynominal::Polynominal(int Order)
     }
 }
 
-void Polynominal::Set(int Order, double Coef)
+Polynominal::~Polynominal()
+{
+    while (Head != NULL)
+    {
+        Coefficients *tmp = Head;
+        Head = Head->Next;
+        delete tmp;
+    }
+}
+
+void Polynominal::Set(long long Order, double Coef)
 {
     if (Coef == 0)
     {
-        cout << "Only non-zero coefs are available" << endl;
+        cout << "\n!!!Only non-zero coefs will be saved!!!" << endl;
         if (Order == GetOrderOfPolynominal())
         {
             OrderOfPolynominal -= 1;
@@ -51,7 +61,7 @@ void Polynominal::Set(int Order, double Coef)
 
     Coefficients *PointerA = GetHead();
     Coefficients *PointerB = PointerA;
-    for (int i = 0; i < GetOrderOfPolynominal() + 1 && PointerA; i++)
+    for (long long i = 0; i < GetOrderOfPolynominal() + 1 && PointerA; i++)
     {
         if (PointerA->Next == nullptr && Order < PointerA->MyOrder) //последний эдемент
         {
@@ -83,7 +93,7 @@ void Polynominal::Set(int Order, double Coef)
     }
 }
 
-double Polynominal::operator[](int Order) const
+double Polynominal::operator[](long long Order) const
 {
     Coefficients *Pointer = GetHead();
 
@@ -96,15 +106,15 @@ double Polynominal::operator[](int Order) const
     return 0;
 }
 
-Polynominal Polynominal::operator+(const Polynominal &Other)
+Polynominal Polynominal::operator+(const Polynominal &Other) const
 {
-    int Maximum = 0;
+    long long Maximum = 0;
 
     this->GetOrderOfPolynominal() < Other.GetOrderOfPolynominal() ? Maximum = Other.GetOrderOfPolynominal() : Maximum = this->GetOrderOfPolynominal();
 
     Polynominal Result(Maximum);
 
-    int CurrentOrder = Maximum;
+    long long CurrentOrder = Maximum;
 
     while (CurrentOrder > -1)
     {
@@ -115,15 +125,15 @@ Polynominal Polynominal::operator+(const Polynominal &Other)
     return Result;
 }
 
-Polynominal Polynominal::operator-(const Polynominal &Other)
+Polynominal Polynominal::operator-(const Polynominal &Other) const
 {
-    int Maximum = 0;
+    long long Maximum = 0;
 
     this->GetOrderOfPolynominal() < Other.GetOrderOfPolynominal() ? Maximum = Other.GetOrderOfPolynominal() : Maximum = this->GetOrderOfPolynominal();
 
     Polynominal Result(Maximum);
 
-    int CurrentOrder = Maximum;
+    long long CurrentOrder = Maximum;
 
     while (CurrentOrder > -1)
     {
@@ -134,12 +144,12 @@ Polynominal Polynominal::operator-(const Polynominal &Other)
     return Result;
 }
 
-Polynominal Polynominal::operator*(double Val)
+Polynominal Polynominal::operator*(double Val) const
 {
     Coefficients *Pointer = GetHead();
     Polynominal Result(Pointer->MyOrder);
 
-    for (int i = 0; i <= GetOrderOfPolynominal(); i++)
+    for (long long i = 0; i <= GetOrderOfPolynominal(); i++)
     {
         Result.Set(Pointer->MyOrder, Pointer->Value * Val);
         Pointer = Pointer->Next;
@@ -147,11 +157,11 @@ Polynominal Polynominal::operator*(double Val)
     return Result;
 }
 
-Polynominal Polynominal::Primitive()
+Polynominal Polynominal::Primitive() const
 {
     Polynominal Result((OrderOfPolynominal + 1));
     Coefficients *Pointer = GetHead();
-    for (int i = 0; i < OrderOfPolynominal + 1; i++)
+    for (long long i = 0; Pointer != NULL; i++)
     {
         double Coef = Pointer->Value * (1 / double(Pointer->MyOrder + 1));
         Result.Set(((Pointer->MyOrder) + 1), Coef);
@@ -177,7 +187,7 @@ double Polynominal::CountValue(double x)
 {
     Coefficients *Pointer = GetHead();
     double Ans = 0;
-    for (int i = 0; i < GetOrderOfPolynominal() + 1 && Pointer; i++)
+    for (long long i = 0; i < GetOrderOfPolynominal() + 1 && Pointer; i++)
     {
         Ans += Pointer->Value * pow(x, Pointer->MyOrder);
         Pointer = Pointer->Next;

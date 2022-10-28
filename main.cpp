@@ -1,63 +1,186 @@
-#include "Polynominal.hpp"
 #include <iostream>
+#include "Polynominal.hpp"
+#include "Input.hpp"
+
 using namespace std;
 
-ostream &operator<<(ostream &os, const Polynominal &Obj)
+void GiveAnX(const Polynominal *Object)
 {
-    if (Obj.GetOrderOfPolynominal() == -1)
+    double Y = 0;
+    double X = InputValue();
+
+    for (int i = Object->GetOrderOfPolynominal(); i >= 0; i--)
     {
-        cout << "Polynominal has no coefs" << endl;
+        Y += (*Object)[i] * pow(X, i);
     }
-    Coefficients *Pointer = Obj.GetHead();
-    for (int i = 0; i < Obj.GetOrderOfPolynominal() + 1 && Pointer; i++)
+
+    cout << "Value for polynom (x = " << X << "): " << Y << endl;
+}
+
+void Sum(const Polynominal *Object)
+{
+    system("clear");
+
+    cout << "Firstly input another polynom" << endl;
+    cout << "Any key to input another polynom" << endl;
+
+    getch();
+
+    system("clear");
+
+    const Polynominal *Another = MenuInput();
+
+    system("clear");
+
+    cout << "Sum of two polynominals:" << endl;
+    cout << "\n\nFirst: " << (*Object) << endl;
+    cout << "\nSecond: " << (*Another) << endl;
+    cout << "\nTheir sum: " << ((*Object) + (*Another)) << endl;
+
+    delete Another;
+}
+
+void Substract(const Polynominal *Object)
+{
+    system("clear");
+
+    cout << "Substract menu\n"
+         << endl;
+
+    cout << "Firstly input another polynom" << endl;
+    cout << "Any key to input another polynom" << endl;
+
+    getch();
+
+    system("clear");
+
+    const Polynominal *Another = MenuInput();
+
+    system("clear");
+
+    cout << "Substract menu\n"
+         << endl;
+
+    cout << "Sum of two polynominals:" << endl;
+    cout << "First: " << (*Object) << endl;
+    cout << "Second: " << (*Another) << endl;
+    cout << "Their substruction result: " << ((*Object) - (*Another)) << endl;
+
+    delete Another;
+}
+
+void MultiplyByArg(const Polynominal *Object)
+{
+    cout << "Multiply by arg menu\n"
+         << endl;
+    int Arg = InputValue();
+
+    system("clear");
+
+    cout << "Multiply by arg menu\n"
+         << endl;
+
+    cout << "(" << (*Object) << ")"
+         << " * " << Arg << " :" << endl;
+    cout << (*Object) * Arg << endl;
+}
+
+void GetCoefByIndex(const Polynominal *Object)
+{
+    system("clear");
+
+    cout << "Get coefficient by index menu\n"
+         << endl;
+    cout << (*Object) << endl;
+    cout << "Input index: ";
+    int Index = 0;
+    cin >> Index;
+    cout << "Value: " << (*Object)[Index] << endl;
+}
+
+void GetPremitiveFucntion(const Polynominal *Object)
+{
+    system("clear");
+
+    cout << "Get Premitive funtion menu\n"
+         << endl;
+    cout << "For : " << (*Object) << endl;
+    cout << "Primitive function equals: " << (*Object).Primitive() << endl;
+}
+
+int MenuChoice()
+{
+    cout << "\n\t[1] - Give an X" << endl;
+    cout << "\n\t[2] - Sum" << endl;
+    cout << "\n\t[3] - Substract" << endl;
+    cout << "\n\t[4] - Multiply by arg" << endl;
+    cout << "\n\t[5] - Get coefficinent by index" << endl;
+    cout << "\n\t[6] - Get premitive fucntion" << endl;
+    cout << "\n\t[BACKSPACE] - Set new polynoms" << endl;
+    cout << "\n\n\tEsc - Exit" << endl;
+    while (true)
     {
-        os << Pointer->Value << "*x^" << Pointer->MyOrder;
-        if (Pointer->Next)
-            os << " + ";
-        Pointer = Pointer->Next;
+        int key = getch();
+        if ((key == 49) || (key == 50) || (key == 51) || (key == 52) || (key == 53) || (key == 54) || (key == 127) || (key == 27))
+        {
+            return key;
+        }
     }
-    return os;
 }
 
 int main()
 {
-    Polynominal a(2);
-    for (int i = 2; i >= 0; i--)
+    while (true)
     {
-        a.Set(i, (i + 1) * 3);
+        system("clear");
+
+        Polynominal *Object = nullptr;
+
+        Object = MenuInput();
+
+        while (Object)
+        {
+            system("clear");
+
+            cout << "Your polymon: " << *Object << endl;
+            int Choice = MenuChoice();
+
+            switch (Choice)
+            {
+            case 49: // Give an X
+                GiveAnX(Object);
+                break;
+            case 50: // Sum
+
+                Sum(Object);
+                break;
+            case 51: // Substract
+                Substract(Object);
+                break;
+            case 52: // Multiply by arg
+                MultiplyByArg(Object);
+                break;
+            case 53: // Get doef by index
+                GetCoefByIndex(Object);
+                break;
+            case 54: // Get premitive fucntion
+                GetPremitiveFucntion(Object);
+                break;
+            case 127: // Set new polynoms
+                delete Object;
+                Object = nullptr;
+                break;
+            case 27: // Exit
+                system("clear");
+                cout << "Word is done" << endl;
+                return EXIT_SUCCESS;
+                break;
+            default:
+                break;
+            }
+
+            cout << "Press any key" << endl;
+            getch();
+        }
     }
-
-    Polynominal b(4);
-    for (int i = 4; i >= 0; i--)
-    {
-        b.Set(i, ((i + 2) * 3));
-    }
-
-    cout << "\na[0]: " << endl;
-    cout << a[0] << endl;
-
-    cout << "\na: " << endl;
-    cout << a << endl;
-
-    cout << "\nb: " << endl;
-    cout << b << endl;
-
-    cout << "\n(a * 2): " << endl;
-    cout << (a * 2) << endl;
-
-    cout << "\na+b: " << endl;
-    cout << (a + b) << endl;
-
-    cout << "\na-b: " << endl;
-    cout << a - b << endl;
-
-    cout << "\nPrimitive (a): " << endl;
-    cout << a.Primitive() << endl;
-
-    cout << "\nCount value for x = 15" << endl;
-    cout << "y = " << a.CountValue(15.0) << endl;
-
-    cout<<"Work is done."<<endl;
-
-    return 0;
 }

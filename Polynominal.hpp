@@ -6,7 +6,7 @@ using namespace std;
 
 struct Coefficients
 {
-    int MyOrder;
+    long long MyOrder;
     double Value;
     Coefficients *Next;
 };
@@ -15,28 +15,30 @@ class Polynominal
 {
     Coefficients *Head;
 
-    int OrderOfPolynominal;
+    long long OrderOfPolynominal;
 
 public:
     Coefficients *GetHead() const;
 
-    int GetOrderOfPolynominal() const;
+    long long GetOrderOfPolynominal() const;
 
-    Polynominal(int Order);
+    Polynominal(long long Order);
 
-    void Set(int Order, double Coef);
+    ~Polynominal();
 
-    double operator[](int Order) const;
+    void Set(long long Order, double Coef);
 
-    Polynominal operator+(const Polynominal &Other);
+    double operator[](long long Order) const;
 
-    Polynominal operator-(const Polynominal &Other);
+    Polynominal operator+(const Polynominal &Other) const;
 
-    Polynominal operator*(double Val);
+    Polynominal operator-(const Polynominal &Other) const;
+
+    Polynominal operator*(double Val) const;
 
     // Polynominal Derivate();
 
-    Polynominal Primitive();
+    Polynominal Primitive() const;
 
     double CountValue(double x);
 
