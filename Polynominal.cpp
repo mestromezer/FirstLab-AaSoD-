@@ -19,6 +19,7 @@ Polynominal::Polynominal(long long Order)
     }
     else
     {
+        delete this;
         throw RangeError("Incorrect \"Order\" for polynomianl");
     }
 }
