@@ -38,7 +38,6 @@ void Polynominal::Set(long long Order, double Coef)
 {
     if (Coef == 0)
     {
-        cout << "\n!!!Only non-zero coefs will be saved!!!" << endl;
         if (Order == GetOrderOfPolynominal())
         {
             OrderOfPolynominal -= 1;
@@ -150,7 +149,7 @@ Polynominal Polynominal::operator*(double Val) const
     Coefficients *Pointer = GetHead();
     Polynominal Result(Pointer->MyOrder);
 
-    for (long long i = 0; i <= GetOrderOfPolynominal(); i++)
+    while(Pointer)
     {
         Result.Set(Pointer->MyOrder, Pointer->Value * Val);
         Pointer = Pointer->Next;
@@ -162,7 +161,7 @@ Polynominal Polynominal::Primitive() const
 {
     Polynominal Result((OrderOfPolynominal + 1));
     Coefficients *Pointer = GetHead();
-    for (long long i = 0; Pointer != NULL; i++)
+    while(Pointer)
     {
         double Coef = Pointer->Value * (1 / double(Pointer->MyOrder + 1));
         Result.Set(((Pointer->MyOrder) + 1), Coef);
@@ -184,11 +183,11 @@ Polynominal Polynominal::Derivate()
     return Result;
 }*/
 
-double Polynominal::CountValue(double x)
+double Polynominal::CountValue(double x) const
 {
     Coefficients *Pointer = GetHead();
     double Ans = 0;
-    for (long long i = 0; i < GetOrderOfPolynominal() + 1 && Pointer; i++)
+    while(Pointer)
     {
         Ans += Pointer->Value * pow(x, Pointer->MyOrder);
         Pointer = Pointer->Next;

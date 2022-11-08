@@ -88,13 +88,9 @@ double InputValue()
 
 void GiveAnX(const Polynominal *Object)
 {
-    double Y = 0;
     double X = InputValue();
 
-    for (int i = Object->GetOrderOfPolynominal(); i >= 0; i--)
-    {
-        Y += (*Object)[i] * pow(X, i);
-    }
+    double Y = Object->CountValue(X);
 
     cout << "Value for polynom (x = " << X << "): " << Y << endl;
 }

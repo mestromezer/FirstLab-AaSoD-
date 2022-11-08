@@ -40,7 +40,7 @@ public:
 
     Polynominal Primitive() const;
 
-    double CountValue(double x);
+    double CountValue(double x) const;
 
     friend ostream &operator<<(ostream &os, const Polynominal &Obj);
 };
